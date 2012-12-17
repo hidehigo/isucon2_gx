@@ -1,0 +1,9 @@
+{
+    "database": {
+        "host": "isucon.db",
+        "port": 3306,
+        "username": "isucon2_user",
+        "password": "isucon2_pw",
+        "dbname": "isucon2"
+    }
+}

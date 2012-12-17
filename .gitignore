@@ -1,0 +1,10 @@
+.cpan
+.cpanm
+.gem
+.nodebrew
+.npm
+.perlbrew
+.rbenv
+.xslate_cache
+.viminfo
+.ssh
