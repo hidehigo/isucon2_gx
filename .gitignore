@@ -8,3 +8,8 @@
 .xslate_cache
 .viminfo
 .ssh
+.gitconfig
+.bash_history
+.mysql_history
+.vimrc
+.vim/*
