@@ -1,8 +1,12 @@
 
 - 20121218
 -- disable SElinux for web&db
+{{{
 # setenforce 0
 # vi /etc/selinux/config
 SELINUX=disabled
-
+}}}
+-- bench
+--- GMOクラウドでbench
+--- 100とか400とかブレブレ
 
