@@ -2,8 +2,26 @@ require 'sinatra/base'
 require 'slim'
 require 'json'
 require 'mysql2'
+require './cache'
+require 'sinatra/memcache'
+
+CONFIG = Hash.new
+CONFIG['memcached'] = 'localhost:11211'
+
+# add caching to Sinatra
+#class Sinatra::Event
+#  include CacheableEvent
+#end
 
 class Isucon2App < Sinatra::Base
+
+configure do
+ set :cache_server, 'localhost:11211'
+ set :cache_namespace, 'sinatra-memcache'
+ set :cache_enable, true
+ set :cache_logging, true
+end
+
   $stdout.sync = true
   set :slim, :pretty => true, :layout => true
 
@@ -87,6 +105,13 @@ class Isucon2App < Sinatra::Base
         variation["stock"][stock["seat_id"]] = stock["order_id"]
       end
     end
+
+ #cache 'cache1' do
+ #  sleep(5)
+ #  p 'Hello Cache1'
+ #end
+
+
     slim :ticket, :locals => {
       :ticket     => ticket,
       :variations => variations,
@@ -101,7 +126,7 @@ class Isucon2App < Sinatra::Base
     mysql.query(
       "UPDATE stock SET order_id = #{ mysql.escape(order_id.to_s) }
        WHERE variation_id = #{ mysql.escape(params[:variation_id]) } AND order_id IS NULL
-       ORDER BY RAND() LIMIT 1",
+       order by rand() LIMIT 1",
     )
     if mysql.affected_rows > 0
       seat_id = mysql.query(
@@ -150,3 +175,4 @@ class Isucon2App < Sinatra::Base
 
   run! if app_file == $0
 end
+
